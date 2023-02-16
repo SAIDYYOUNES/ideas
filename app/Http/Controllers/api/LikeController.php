@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\like;
+use App\Http\Controllers\API\BaseController as BaseController;
 use Illuminate\Http\RedirectResponse;
+use App\Http\Resources\like as likeResource;
+
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-class LikeController extends Controller
+class LikeController extends BaseController
 {
     /**
      * Display a listing of the resource.

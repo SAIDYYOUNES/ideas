@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\comment;
+use App\Http\Controllers\API\BaseController as BaseController;
 use Illuminate\Http\RedirectResponse;
+use App\Http\Resources\comment as commentResource;
+
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-class CommentController extends Controller
+class CommentController extends BaseController
 {
     /**
      * Display a listing of the resource.
