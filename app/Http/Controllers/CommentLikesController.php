@@ -2,15 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\comment;
-use App\Http\Controllers\API\BaseController as BaseController;
+use App\Models\commentLikes;
 use Illuminate\Http\RedirectResponse;
-use App\Http\Resources\comment as commentResource;
-
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-class CommentController extends BaseController
+class CommentLikesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -39,7 +36,7 @@ class CommentController extends BaseController
     /**
      * Display the specified resource.
      */
-    public function show(comment $comment): Response
+    public function show(commentLikes $commentLikes): Response
     {
         //
     }
@@ -47,7 +44,7 @@ class CommentController extends BaseController
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(comment $comment): Response
+    public function edit(commentLikes $commentLikes): Response
     {
         //
     }
@@ -55,7 +52,7 @@ class CommentController extends BaseController
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, comment $comment): RedirectResponse
+    public function update(Request $request, commentLikes $commentLikes): RedirectResponse
     {
         //
     }
@@ -63,7 +60,7 @@ class CommentController extends BaseController
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(comment $comment): RedirectResponse
+    public function destroy(commentLikes $commentLikes): RedirectResponse
     {
         //
     }
