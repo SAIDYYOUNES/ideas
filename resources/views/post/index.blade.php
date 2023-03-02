@@ -67,9 +67,16 @@
                                     <p class="mt-3 mb-4 pb-2">
                                         {{ $post->description }}
                                     </p>
-                                    <a href="/posts/category/{{ $post->category }}" style="background: darkgray"
-                                        class="badge badge-secondary mb-3">#{{ $post->category }}</a>
-                                    {{-- <span class="badge badge-pill badge-secondary">Secondary</span> --}}
+                                    <a href="{{ $post->fichier }}">
+                                        <h5 class="mt-3 mb-4 pb-2">
+                                            lien du fichier associer
+                                        </h5>
+                                    </a>
+                                    @foreach ($post->categories as $category)
+                                        <a href="/posts/category/{{ $category->id }}" style="background: darkgray"
+                                            class="badge badge-secondary mb-3">#{{ $category->name }}</a>
+                                    @endforeach
+                                    <img class=" img-fluid pb-2 mx-auto" src="./img/{{ $post->file }}" alt="">
 
                                     <div class="small d-flex justify-content-start">
                                         @if (!$post->likes()->where('user_id', Auth::user()->id)->exists())
@@ -120,9 +127,63 @@
                                                     <small class="c-badge"></small>
                                                 </div>
                                                 <small>{{ $post->comments->first()->created_at }}</small>
+                                                @if (Auth::user() && Auth::user()->id == $post->comments->first()->user->id)
+                                                <div class="nav-item dropdown">
+                                                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#"
+                                                        role="button" data-bs-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false" v-pre>
+
+                                                    </a>
+
+                                                    <div class="dropdown-menu dropdown-menu-end"
+                                                        aria-labelledby="navbarDropdown">
+
+                                                        <form action="/commentaire/{{ $post->comments->first()->id }}"
+                                                            method="POST">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button class="dropdown-item" type="submit">
+                                                                delete
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                                @endif
                                             </div>
                                             <p class="text-justify comment-text mb-0">
                                                 {{ $post->comments->first()->text }}</p>
+                                            {{-- <p class="text-justify comment-text mb-0">
+                                                {{count( $post->comments->first()->likes )}}
+                                              </p> --}}
+                                            @if (!$post->comments->first()->likes()->where('user_id', Auth::user()->id)->exists())
+                                                <form action="/commentlike" method="POST">
+                                                    @csrf
+
+                                                    <input type="hidden" name="comment_id"
+                                                        value="{{ $post->comments->first()->id }}">
+                                                    <button type="submit"
+                                                        class="btn btn-light d-flex align-items-center me-3">
+                                                        <i class="far fa-thumbs-up me-2"></i>
+                                                        <p class="mb-0">
+                                                            Like({{ count($post->comments->first()->likes) }})</p>
+                                                    </button>
+                                                </form>
+                                            @else
+                                                <form action="/commentlike/{{ $post->comments->first()->id }}"
+                                                    method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+
+
+
+                                                    <button type="submit"
+                                                        class=" btn btn-primary d-flex align-items-center me-3">
+                                                        <i class="far fa-thumbs-up me-2"></i>
+                                                        <p class="mb-0">
+                                                            Like({{ count($post->comments->first()->likes) }})</p>
+                                                    </button>
+                                                </form>
+                                            @endif
 
 
                                         </div>

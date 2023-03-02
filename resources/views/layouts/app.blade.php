@@ -56,7 +56,7 @@
                             </form>
                           </div>
                     </ul>
-                    <a href="/posts/create">
+                    <a class="ms-2" href="/posts/create">
                         <button  type="button" class="btn btn-primary ">add a post</button></a> 
                     @endAuth
                     

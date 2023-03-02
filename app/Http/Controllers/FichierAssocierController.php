@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\post;
-use App\Models\postLlikes;
+use App\Models\fichier_associer;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Redirect;
 
-class PostLlikesController extends Controller
+class FichierAssocierController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -30,21 +28,15 @@ class PostLlikesController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(post $post, Request $request)
+    public function store(Request $request): RedirectResponse
     {
-        $postLike = new postlLikes();
-        $postLike->user_id = auth()->id();
-        $postLike->post_id = $post->id;
-        $postLike->save();
-
-        return  Redirect::back(); 
-        // No content status code (successful like)
+        //
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(postLlikes $postLlikes): Response
+    public function show(fichier_associer $fichier_associer): Response
     {
         //
     }
@@ -52,7 +44,7 @@ class PostLlikesController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(postLlikes $postLlikes): Response
+    public function edit(fichier_associer $fichier_associer): Response
     {
         //
     }
@@ -60,7 +52,7 @@ class PostLlikesController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, postLlikes $postLlikes): RedirectResponse
+    public function update(Request $request, fichier_associer $fichier_associer): RedirectResponse
     {
         //
     }
@@ -68,9 +60,8 @@ class PostLlikesController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($post)
+    public function destroy(fichier_associer $fichier_associer): RedirectResponse
     {
-        postLlikes::where('post_id',$post)->where('user_id',auth()->id())->delete();
-        return  Redirect::back(); 
+        //
     }
 }

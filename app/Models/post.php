@@ -12,7 +12,7 @@ class post extends Model
         'file',
         'slug',
         'description',
-        'category',
+        
         'user_id',
     ];
     public function user()
@@ -24,20 +24,18 @@ class post extends Model
         
         return $this->hasMany(commentaire::class);
     }
-    // public function firstcomment()
-    // {
-        
-    //     return $this->hasOne(commentaire::first());
-    // }
+    
     public function likes()
     {
         return $this->hasMany(postLlikes::class);
     }
 
-    public function like(User $user)
+    public function categories()
     {
-        if (!$this->likes()->where('user_id', $user->id)->exists()) {
-            $this->likes()->create(['user_id' => $user->id]);
-        }
+        return $this->belongsToMany(Category::class);
+    }
+    public function fichiers()
+    {
+        return $this->hasMany(fichier_associer::class);
     }
 }

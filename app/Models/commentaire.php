@@ -15,12 +15,17 @@ class commentaire extends Model
         'like',
         
     ];
+    public function likes()
+    {
+        return $this->hasMany(commentLikes::class);
+    }
     public function post()
     {
         return $this->belongsTo(post::class);
     }
     public function user()
     {
+        
         return $this->belongsTo(User::class);
     }
 }

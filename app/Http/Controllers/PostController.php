@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\category;
 use App\Models\post;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -37,7 +38,8 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('post.create');
+
+        return view('post.create')->with('categories',category::all());
     }
 
     /**
@@ -47,22 +49,31 @@ class PostController extends Controller
     {
         $request->validate(
             [
+                'img' => 'required',
                 'file' => 'required',
                 'slug' => 'required',
                 'description' => 'required',
-                'category' => 'required',
+                'categories' => 'required',
             ]
         );
-        post::create(
-            [
-                'file' => $request->input('file'),
-                'slug' => $request->input('slug'),
-                'description' => $request->input('description'),
-                'category' => $request->input('category'),
-                'user_id' => auth()->user()->id,
+        
+        $image = $request->slug.'-'.$image=uniqid().'.'.$request->img->extension();
+        $request->file('img')->move(public_path('img'),$image);
+        // dd();
+        // dd($request->file('file'));
+        $post = new post;
+        $post->file = $image;
+        $post->fichier = $request->input('file');
+        $post->slug = $request->input('slug');
+        $post->description = $request->input('description');
+        
+        $post->user_id= auth()->user()->id;
+        
+        $post->save();
+        
+        $post->categories()->attach($request->input('categories'));
+        $post->save();
 
-            ]
-        );
         return redirect('/posts');
     }
 
@@ -72,7 +83,7 @@ class PostController extends Controller
     }
     public function category($category)
     {
-        return view('post.index')->with('posts', post::where('category', $category)->get());
+        return view('post.index')->with('posts', category::find($category)->posts);
     }
 
     /**
@@ -88,17 +99,23 @@ class PostController extends Controller
     {
         $request->validate(
             [
+                
+                'img' => 'required',
                 'file' => 'required',
                 'slug' => 'required',
                 'description' => 'required',
-                'category' => 'required',
+                // 'categories' => 'required',
             ]
         );
+        
+        $imageupdate = $request->slug.'-'.uniqid().'.'.$request->img->extension();
+        $request->file('img')->move(public_path('img'),$imageupdate);
         $update_post=post::findorfail($id);
-        $update_post->file = $request->input('file');
+        $update_post->file = $imageupdate;
         $update_post->slug =$request->input('slug');
         $update_post->description = $request->input('description');
-        $update_post->category= $request->input('category');
+        $update_post->fichier = $request->input('file');
+        // $update_post->category= $request->input('category');
         $update_post->save();
         return redirect('/posts/'.$update_post->slug)->with('message','post updated')
         ;

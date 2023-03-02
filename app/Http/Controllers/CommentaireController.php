@@ -6,6 +6,7 @@ use App\Models\commentaire;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Redirect;
 
 class CommentaireController extends Controller
 {
@@ -75,8 +76,10 @@ class CommentaireController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(commentaire $commentaire)
+    public function destroy( $id)
     {
         //
+        commentaire::where('id',$id)->delete();
+        return  Redirect::back()->with('deleted','comment deleted');
     }
 }
